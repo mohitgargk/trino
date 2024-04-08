@@ -319,4 +319,11 @@
             <unpack />
         </artifact>
     </artifactSet>
+
+    <artifactSet to="plugin/cdp-dg">
+        <artifact id="${project.groupId}:cdp-dg:zip:${project.version}">
+            <unpack />
+        </artifact>
+    </artifactSet>
+
 </runtime>
