@@ -36,9 +36,10 @@ public final class PruneDg {
     public static Slice pruneDg(ConnectorSession session, @SqlType(StandardTypes.VARCHAR) Slice jsonValue, @SqlType(StandardTypes.VARCHAR) Slice jsonSchema)
     {
         try {
-
-            JSONObject schema = new JSONObject(jsonValue.toString());
-            JSONObject document = new JSONObject(jsonValue.toString());
+            String sSchema = jsonSchema.toStringUtf8();
+            String sValue = jsonValue.toStringUtf8();
+            JSONObject schema = new JSONObject(sSchema);
+            JSONObject document = new JSONObject(sValue);
 
             JSONObject reducedJson = reduceJson(document, schema.getJSONObject("properties"));
             System.out.println("Reduced JSON: " + reducedJson.toString());
