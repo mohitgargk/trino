@@ -36,6 +36,8 @@ public final class PruneDg {
     public static Slice pruneDg(ConnectorSession session, @SqlType(StandardTypes.VARCHAR) Slice jsonValue, @SqlType(StandardTypes.VARCHAR) Slice jsonSchema)
     {
         try {
+            long startTime = System.nanoTime();
+
             String sSchema = jsonSchema.toStringUtf8();
             String sValue = jsonValue.toStringUtf8();
             JSONObject schema = new JSONObject(sSchema);
@@ -43,7 +45,13 @@ public final class PruneDg {
 
             JSONObject reducedJson = reduceJson(document, schema.getJSONObject("properties"));
             System.out.println("Reduced JSON: " + reducedJson.toString());
-            return utf8Slice(reducedJson.toString());
+
+            Slice toReturn = utf8Slice(reducedJson.toString());
+
+            long endTime = System.nanoTime();
+            System.out.println("time elapsed in microsecs = " + (endTime-startTime)/1000);
+            System.out.println(reducedJson);
+            return toReturn;
 
         }
         catch (Throwable t) {
